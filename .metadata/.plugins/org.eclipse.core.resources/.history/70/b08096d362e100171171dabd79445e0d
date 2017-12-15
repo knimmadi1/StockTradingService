@@ -1,0 +1,25 @@
+package com.intuit.test.stockTrading.exceptions;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
+
+@Provider
+public class QueryNotFoundException extends Exception implements ExceptionMapper<QueryNotFoundException>{
+
+	
+	public QueryNotFoundException(String message)
+	{
+		super(message);
+	}
+	
+
+	@Override
+	public Response toResponse(QueryNotFoundException exception) {
+		return Response.status(Response.Status.BAD_REQUEST)
+				.entity(new ErrorMessage("Query Number does not exists"))
+				.build();
+	}
+s
+
+}

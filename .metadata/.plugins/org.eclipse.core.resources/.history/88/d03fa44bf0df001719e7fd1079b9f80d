@@ -1,0 +1,43 @@
+package com.intuit.test.StockTrading.ModelClasses;
+
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+public class Stock {
+	
+	
+	public Stock() {
+		super();
+	}
+	public Stock(String stockId, double stockPrice) {
+		super();
+		this.stockId = stockId;
+		this.stockPrice = stockPrice;
+	}
+	@XmlElement(name="stockId")
+	public String getStockId() {
+		return stockId;
+	}
+	@XmlElement(name="stockId")
+	public void setStockId(String stockId) {
+		this.stockId = stockId;
+	}
+	@XmlElement(name="stockPrice")
+	public double getStockPrice() {
+		return stockPrice;
+	}
+	@XmlElement(name="stockPrice")
+	public void setStockPrice(double stockPrice) {
+		this.stockPrice = stockPrice;
+	}
+	
+	private String stockId;
+	
+	private double stockPrice;
+	
+	
+
+}

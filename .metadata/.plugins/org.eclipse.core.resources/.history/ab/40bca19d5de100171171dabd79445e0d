@@ -1,0 +1,17 @@
+package com.intuit.test.stockTrading.exceptions;
+
+public class QueryNotFoundException extends RuntimeException {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3465636086446106917L;
+	
+	public QueryNotFoundException(String message)
+	{
+		super(message);
+	}
+	
+	
+
+}

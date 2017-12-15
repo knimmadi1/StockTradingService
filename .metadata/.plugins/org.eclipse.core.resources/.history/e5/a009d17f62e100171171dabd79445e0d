@@ -1,0 +1,87 @@
+package com.intuit.test.stockTrading.service;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
+
+import javax.ws.rs.core.Response;
+
+import com.intuit.test.stockTrading.exceptions.StockNotFoundException;
+import com.intuit.test.stockTrading.exceptions.TranTypeNotFoundException;
+import com.intuit.test.stockTrading.Database.AnalyzerDB;
+import com.intuit.test.stockTrading.Database.OrdersDB;
+import com.intuit.test.stockTrading.ModelClasses.QueryResponse;
+import com.intuit.test.stockTrading.ModelClasses.UserQuery;
+import com.intuit.test.stockTrading.ModelClasses.UserQueryStatus;
+
+
+
+
+
+public class QueryService {
+	
+	private final PriorityBlockingQueue<UserQueryStatus> queryQueue = new PriorityBlockingQueue<UserQueryStatus>();
+	private final ArrayBlockingQueue<UserQueryStatus> orderQueue = new ArrayBlockingQueue<UserQueryStatus>(1000000)  ;
+	
+	public QueryService()
+	{
+		InvestmentAnalyzerService InvestmentAnalyzerService = new InvestmentAnalyzerService(queryQueue,orderQueue);
+		new Thread(InvestmentAnalyzerService).start();
+	}
+	
+	
+	public PriorityBlockingQueue<UserQueryStatus> getQueryQueue() {
+		return queryQueue;
+	}
+	public ArrayBlockingQueue<UserQueryStatus> getOrderQueue() {
+		return orderQueue;
+	}
+	
+	public Response processQuery(UserQuery query) throws StockNotFoundException, TranTypeNotFoundException
+	{
+		if(AnalyzerDB.getInstance().stockIdExists(query.getStockId()))
+		{
+			if(query.getTranType().equalsIgnoreCase("buy") || query.getTranType().equalsIgnoreCase("buy"))
+			{
+				
+			//creating corresponding userQueryStatus object of userQuery with query number and status feilds and then add to "userQueryStatus" list in DB
+			int queryNum=AnalyzerDB.getInstance().getUserQueryStatus().size()+1;
+			UserQueryStatus userQueryStatus = new UserQueryStatus(queryNum,"Accepted Query",query);
+			AnalyzerDB.getInstance().getUserQueryStatus().add(userQueryStatus);
+			
+			//Print the query which is accepted
+			System.out.println("************Query is accepted************************");
+			
+			System.out.println("user Id "+userQueryStatus.getUserId());
+			System.out.println("stock Id "+userQueryStatus.getStockId());
+			System.out.println("stock price "+userQueryStatus.getPrice());
+			System.out.println("Transaction Type "+userQueryStatus.getTranType());
+			System.out.println("Number of Stocks "+userQueryStatus.getNumOfStocks());
+			System.out.println("Rank "+userQueryStatus.getRank());
+			System.out.println("Query Number "+userQueryStatus.getQueryNum());
+			System.out.println("Query Status "+userQueryStatus.getQueryStatus());
+			
+			//Add userQueryStatus object to priority blocking queue
+			queryQueue.put(userQueryStatus);
+			
+			
+			//update the status to Processing for this query
+			userQueryStatus.setQueryStatus("Processing the Query");
+		
+			QueryResponse queryResponse = new QueryResponse("Your Query is accepted and status can be tracked with Query Number",queryNum);
+			return Response.status(201)
+						.entity(queryResponse)
+						.build();
+			}
+			else
+			{
+				throw new TranTypeNotFoundException("Invalid Tran Type.Transaction type should be buy/sell");
+			}
+			
+		}
+		else
+		{
+			throw new StockNotFoundException("Stock with Stock Id "+query.getStockId()+ " does not exist");
+		}
+	}
+
+}

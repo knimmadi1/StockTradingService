@@ -1,0 +1,41 @@
+package com.intuit.test.StockTrading;
+
+
+
+import java.util.concurrent.PriorityBlockingQueue;
+
+import com.intuit.test.StockTrading.Database.AnalyzerDB;
+import com.intuit.test.StockTrading.ModelClasses.Stock;
+import com.intuit.test.StockTrading.ModelClasses.userQuery;
+
+public class QueryService implements Runnable{
+	
+	public QueryService(PriorityBlockingQueue queue) {
+		this.orderQueue = queue;
+	}
+	private final PriorityBlockingQueue<userQuery> orderQueue;
+	public void run() {
+
+		orderQueue.put(submituserQuery());
+
+	}
+
+	userQuery submituserQuery()
+	{
+		userQuery uq= new userQuery("u1",generaterandomRank(),"buy","s1",10,71d);
+		return uq;
+		
+	}
+	
+	//this generates random number between 1 to 100
+	int generaterandomRank()
+	{
+		int rank = (int)(Math.random()*100);
+		System.out.println("Genearted random rank"+rank);
+		return rank;
+		
+		
+	}
+}
+
+	

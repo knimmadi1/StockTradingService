@@ -1,0 +1,33 @@
+package com.intuit.test.StockTrading.ModelClasses;
+
+import java.io.Serializable;
+
+public class Stock implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public Stock(String stockId, double stockPrice) {
+		this.stockId = stockId;
+		this.stockPrice = stockPrice;
+	}
+	public String getStockId() {
+		return stockId;
+	}
+	public void setStockId(String stockId) {
+		this.stockId = stockId;
+	}
+	public double getStockPrice() {
+		return stockPrice;
+	}
+	public void setStockPrice(int stockPrice) {
+		this.stockPrice = stockPrice;
+	}
+	private String stockId;
+	private double stockPrice;
+	
+	
+
+}

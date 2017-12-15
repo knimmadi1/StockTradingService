@@ -1,0 +1,28 @@
+package com.intuit.test.exceptions;
+
+import javax.inject.Singleton;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
+
+@Provider
+@Singleton
+public class StockNotFoundException extends Exception implements ExceptionMapper<StockNotFoundException>{
+
+
+	public StockNotFoundException(String message)
+	{
+		super(message);
+	}
+	
+	@Override
+	public Response toResponse(StockNotFoundException msg) {
+		System.out.println("*************************Entered Maper class");
+		ErrorMessage errorMessage = new ErrorMessage(msg.getMessage());
+		System.out.println("Printing Error Msg"+errorMessage.getErrorMsg());
+		return Response.status(Response.Status.NOT_FOUND)
+					.entity(errorMessage)
+						.build();
+	}
+
+}

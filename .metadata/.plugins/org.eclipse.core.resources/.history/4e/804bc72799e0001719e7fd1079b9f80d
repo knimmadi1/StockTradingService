@@ -1,0 +1,17 @@
+package com.intuit.test.Exceptions;
+
+public class QueryNotFounException extends RuntimeException {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3465636086446106917L;
+	
+	public QueryNotFounException(String message)
+	{
+		super(message);
+	}
+	
+	
+
+}

@@ -1,0 +1,19 @@
+package com.intuit.test.exceptions;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
+
+@Provider
+public class QueryNotFoundExpMapper implements ExceptionMapper<QueryNotFoundException> {
+
+	@Override
+	public Response toResponse(QueryNotFoundException exception) {
+		// TODO Auto-generated method stub
+		return Response.status(Response.Status.NOT_FOUND)
+				.entity(new ErrorMessage("Query Number does not exists"))
+				.build();
+	}
+
+}

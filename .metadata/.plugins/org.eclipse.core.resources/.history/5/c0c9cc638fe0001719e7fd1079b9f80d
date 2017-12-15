@@ -1,0 +1,9 @@
+package com.intuit.test.StockTrading.ModelClasses;
+
+public class UserQueryStatus extends UserQuery{
+	
+	private int queryNum;
+	private String queryStatus;
+	
+
+}

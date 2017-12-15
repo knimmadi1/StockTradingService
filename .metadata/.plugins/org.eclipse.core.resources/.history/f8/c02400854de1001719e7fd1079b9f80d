@@ -1,0 +1,35 @@
+package com.intuit.test.StockTrading.Database;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.intuit.test.StockTrading.ModelClasses.UserInfo;
+import com.intuit.test.StockTrading.ModelClasses.UserQuery;
+
+public class OrdersDB {
+
+	
+	private static OrdersDB instance  = null;
+	
+	private OrdersDB()
+	{
+		
+	}
+	
+	public static OrdersDB getInstance()
+	{
+		if(instance == null)
+			instance= new OrdersDB();
+		return instance;
+			
+	}
+
+	 
+	private final List<UserQuery> orders = new ArrayList<UserQuery>();
+	
+	public List<UserQuery> getOrders() {
+		return orders;
+	}
+
+	
+}

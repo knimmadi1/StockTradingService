@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="javax.ws.rs.Path"/>
+<fullyQualifiedTypeName name="javax.ws.rs.Produces"/>
+<fullyQualifiedTypeName name="javax.ws.rs.POST"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="javax.net.ssl.SSLEngineResult.Status"/>
+<fullyQualifiedTypeName name="javax.xml.bind.annotation.XmlRootElement"/>
+<fullyQualifiedTypeName name="javax.xml.bind.annotation.XmlElement"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="javax.ws.rs.core.GenericEntity"/>
+<fullyQualifiedTypeName name="javax.ws.rs.ext.Provider"/>
+<fullyQualifiedTypeName name="com.intuit.test.StockTrading.ModelClasses.userQuery"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="com.intuit.test.StockTrading.ModelClasses.Stock"/>
+<fullyQualifiedTypeName name="java.util.concurrent.PriorityBlockingQueue"/>
+<fullyQualifiedTypeName name="java.util.concurrent.ArrayBlockingQueue"/>
+<fullyQualifiedTypeName name="java.util.concurrent.BlockingQueue"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="com.intuit.test.StockTrading.InvestmentAnalyzerService"/>
+<fullyQualifiedTypeName name="com.intuit.test.StockTrading.ModelClasses.QueryResponse"/>
+<fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
+<fullyQualifiedTypeName name="com.intuit.test.StockTrading.ModelClasses.QueryStatus"/>
+<fullyQualifiedTypeName name="javax.ws.rs.QueryParam"/>
+<fullyQualifiedTypeName name="com.intuit.test.Exceptions.QueryNotFounException"/>
+<fullyQualifiedTypeName name="com.intuit.test.Exceptions.QueryNotFoundException"/>
+<fullyQualifiedTypeName name="javax.ws.rs.ext.ExceptionMapper"/>
+<fullyQualifiedTypeName name="javax.ws.rs.core.Response.Status"/>
+<fullyQualifiedTypeName name="javax.ws.rs.core.MediaType"/>
+<fullyQualifiedTypeName name="com.intuit.test.StockTrading.Database.OrdersDB"/>
+<fullyQualifiedTypeName name="com.intuit.test.StockTrading.ModelClasses.UserInfo"/>
+<fullyQualifiedTypeName name="com.intuit.test.StockTrading.ModelClasses.UserQuery"/>
+<fullyQualifiedTypeName name="com.intuit.test.StockTrading.ModelClasses.UserQueryStatus"/>
+<fullyQualifiedTypeName name="com.intuit.test.Exceptions.StockNotFoundException"/>
+<fullyQualifiedTypeName name="com.intuit.test.StockTrading.Database.AnalyzerDB"/>
+<fullyQualifiedTypeName name="com.intuit.test.StockTrading.QueryService"/>
+</qualifiedTypeNameHistroy>

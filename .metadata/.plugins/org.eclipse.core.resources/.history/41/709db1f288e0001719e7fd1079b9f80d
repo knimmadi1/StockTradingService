@@ -1,0 +1,26 @@
+package com.intuit.test.StockTrading.ModelClasses;
+
+public class QueryResponse {
+
+	private final String queryRespMsg= "Your Query has been accepted and you can track status with below query number";
+	private int queryNum;
+	
+	
+	public QueryResponse() {
+	
+	}
+	public QueryResponse(int queryNum) {
+		this.queryNum = queryNum;
+	}
+	
+	public int getQueryNum() {
+		return queryNum;
+	}
+	public void setQueryNum(int queryNum) {
+		this.queryNum = queryNum;
+	}
+	public String getQueryRespMsg() {
+		return queryRespMsg;
+	}
+
+}

@@ -1,0 +1,87 @@
+package com.intuit.test.StockTrading;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
+
+import com.intuit.test.StockTrading.Database.AnalyzerDB;
+import com.intuit.test.StockTrading.ModelClasses.Stock;
+import com.intuit.test.StockTrading.ModelClasses.UserQuery;
+import com.intuit.test.StockTrading.ModelClasses.UserQueryStatus;
+
+public class InvestmentAnalyzerService implements Runnable{
+	
+	private final PriorityBlockingQueue<UserQueryStatus> queryQueue;
+	private final  ArrayBlockingQueue<UserQueryStatus> orderQueue;
+	
+	public InvestmentAnalyzerService(PriorityBlockingQueue<UserQueryStatus> queryQueue, ArrayBlockingQueue orderQueue) {
+		this.queryQueue = queryQueue;
+		this.orderQueue=orderQueue;
+		OrderProcessService orderProcessService= new OrderProcessService(orderQueue);
+		new Thread(orderProcessService).start();
+	}
+
+	public void run() {
+		while(true)
+		{
+			try {
+				consume(queryQueue.take());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	void consume(UserQueryStatus userQueryStatus) throws InterruptedException{
+		
+		
+		//check in DB if Rating is already present or not for this stock and price
+		
+		Integer rating = null;
+		Stock stock = new Stock(userQueryStatus.getStockId(),userQueryStatus.getPrice());
+		//Integer rating=AnalyzerDB.getInstance().getRating(stock);
+		
+		if(AnalyzerDB.getInstance().getStockRating().containsKey(stock))
+		{
+			System.out.println("Rating is there for this stock and price");
+			rating=AnalyzerDB.getInstance().getRating(stock);
+			
+		}
+		
+		//If rating does not exists,compute rating and then add to DB
+		else
+		{
+			
+			rating=computeRating(userQueryStatus);
+			System.out.println("Computed rating"+rating);
+			AnalyzerDB.getInstance().getStockRating().put(stock, rating);
+			
+		}
+		
+		if(rating.intValue() > 80)
+		{
+			orderQueue.put(userQueryStatus);
+			
+			//update status of Query that it is sent for Ordering
+			userQueryStatus.setQueryStatus("Query has been sent for ordering");
+			
+		}
+		else
+		{
+			userQueryStatus.setQueryStatus("Order Rejected as Price provided is not close enough to Actual Stock Price");
+		}
+	
+	}
+	
+	private Integer computeRating(UserQueryStatus userQueryStatus)
+	{
+		double actualStockPrice = AnalyzerDB.getInstance().getActualStockPrice(userQueryStatus.getStockId());
+		System.out.println("Actual Stock Price *********"+actualStockPrice);
+		double val=Math.abs(( (userQueryStatus.getPrice()-actualStockPrice)/actualStockPrice)*100);
+		return (int) (100d-val);
+		
+	}
+
+}

@@ -1,0 +1,21 @@
+package com.intuit.test.StockTrading.ModelClasses;
+
+import java.util.List;
+
+public class StocksList {
+	
+	public StocksList() {
+		super();
+	}
+
+	private List<Stock> listOfStocks;
+
+	public List<Stock> getStocksList() {
+		return listOfStocks;
+	}
+
+	public void setStocksList(List<Stock> listOfStocks) {
+		this.listOfStocks = listOfStocks;
+	}
+
+}

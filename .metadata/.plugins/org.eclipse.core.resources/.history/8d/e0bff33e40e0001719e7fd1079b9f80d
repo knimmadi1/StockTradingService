@@ -1,0 +1,21 @@
+package com.intuit.test.StockTrading.Database;
+
+public class OrdersDB {
+
+	private static OrdersDB instance  = null;
+	
+	private OrdersDB()
+	{
+		
+	}
+	
+	private static OrdersDB getInstance()
+	{
+		if(instance == null)
+			instance= new OrdersDB();
+		return instance;
+			
+	}
+	
+	
+}

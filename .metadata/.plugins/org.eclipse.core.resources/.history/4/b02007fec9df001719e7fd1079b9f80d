@@ -1,0 +1,23 @@
+package com.intuit.test.StockTrading.Database;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class AnalyzerDB {
+	
+	public AnalyzerDB() {
+		stocks.put("s1", 70d);
+		stocks.put("s2", 27d);
+		stocks.put("s3", 36d);
+		stocks.put("s4", 54d);
+	
+	}
+
+	public HashMap<String,Double> stocks= new HashMap<String,Double>();
+	
+//	public List<StockRating> existingRatings= new ArrayList<StockRating>();
+	
+	
+
+}

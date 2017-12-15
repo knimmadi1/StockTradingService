@@ -1,0 +1,62 @@
+package com.intuit.test.StockTrading;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
+
+import javax.ws.rs.core.Response;
+
+import com.intuit.test.Exceptions.StockNotFoundException;
+import com.intuit.test.StockTrading.Database.AnalyzerDB;
+import com.intuit.test.StockTrading.ModelClasses.QueryResponse;
+import com.intuit.test.StockTrading.ModelClasses.QueryStatus;
+import com.intuit.test.StockTrading.ModelClasses.UserQuery;
+import com.intuit.test.StockTrading.ModelClasses.UserQueryStatus;
+
+
+
+
+
+public class QueryService {
+	
+	private final PriorityBlockingQueue<UserQuery> queryQueue = new PriorityBlockingQueue<UserQuery>();
+	private final ArrayBlockingQueue<UserQuery> orderQueue = new ArrayBlockingQueue<UserQuery>(1000000)  ;
+	
+	public QueryService()
+	{
+		InvestmentAnalyzerService InvestmentAnalyzerService = new InvestmentAnalyzerService(queryQueue,orderQueue);
+		new Thread(InvestmentAnalyzerService).start();
+	}
+	
+	
+	public PriorityBlockingQueue<UserQuery> getQueryQueue() {
+		return queryQueue;
+	}
+	public ArrayBlockingQueue<UserQuery> getOrderQueue() {
+		return orderQueue;
+	}
+	
+	public Response processQuery(UserQuery query) 
+	{
+		if(AnalyzerDB.getInstance().stockIdExists(query.getStockId()))
+		{
+			int num=AnalyzerDB.getInstance().getQueryStatus().size();
+			UserQueryStatus userQueryStatus = new UserQueryStatus(AnalyzerDB.getInstance().getQueryStatus().size(),"Accepted Query",query);
+			queryQueue.put(query);
+			Integer queryNum=AnalyzerDB.getInstance().getQueries().size();
+			AnalyzerDB.getInstance().getQueries().put(queryNum, query);
+			
+			AnalyzerDB.getInstance().getQueryStatus().add(new QueryStatus(query,"Processing"));
+			
+			QueryResponse queryResponse = new QueryResponse("Your Query is accepted and status can be tracked with Query Number",queryNum);
+			return Response.status(201)
+						.entity(queryResponse)
+						.build();
+			
+		}
+		else
+		{
+			throw new StockNotFoundException("Stock with Stock Id "+query.getStockId()+ " does not exist");
+		}
+	}
+
+}

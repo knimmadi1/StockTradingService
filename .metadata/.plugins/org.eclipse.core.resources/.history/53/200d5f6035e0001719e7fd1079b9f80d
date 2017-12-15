@@ -1,0 +1,48 @@
+package com.intuit.test.StockTrading.Database;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import com.intuit.test.StockTrading.ModelClasses.Stock;
+
+public class AnalyzerDB {
+	
+	private static AnalyzerDB instance = null;
+	private AnalyzerDB() {
+		
+		stocks.add(new Stock("s1",70d));
+		stocks.add(new Stock("s2",70d));
+		stocks.add(new Stock("s3",70d));
+		stocks.add(new Stock("s4",70d));
+	
+		stockMap.put("s1", stocks.get(0));
+		stockMap.put("s1", stocks.get(1));
+		stockMap.put("s1", stocks.get(2));
+		stockMap.put("s1", stocks.get(3));
+	}
+	
+	public static AnalyzerDB getInstance()
+	{
+		if(instance == null)
+		{
+			instance = new AnalyzerDB();
+		}
+		return instance;
+		
+	}
+
+	private final List<Stock> stocks= new ArrayList<Stock>();
+	
+	private final HashMap<String,Stock> stockMap = new HashMap<String,Stock>();
+	
+	public List<Stock> getStocks() {
+		return stocks;
+	}
+
+	public HashMap<String,Stock> getLookupByStock() {
+		return stockMap;
+	}
+
+	
+}

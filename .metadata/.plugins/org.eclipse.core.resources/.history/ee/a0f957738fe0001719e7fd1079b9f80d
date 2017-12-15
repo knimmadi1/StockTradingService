@@ -1,0 +1,30 @@
+package com.intuit.test.StockTrading.ModelClasses;
+
+public class UserQueryStatus extends UserQuery{
+	
+	private int queryNum;
+	private String queryStatus;
+	public int getQueryNum() {
+		return queryNum;
+	}
+	public void setQueryNum(int queryNum) {
+		this.queryNum = queryNum;
+	}
+	public String getQueryStatus() {
+		return queryStatus;
+	}
+	public void setQueryStatus(String queryStatus) {
+		this.queryStatus = queryStatus;
+	}
+	
+	public UserQueryStatus(int queryNum, String queryStatus) {
+		super();
+		this.queryNum = queryNum;
+		this.queryStatus = queryStatus;
+	}
+	public UserQueryStatus() {
+		super();
+	}
+	
+
+}

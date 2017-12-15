@@ -1,0 +1,5 @@
+package com.intuit.test.StockTrading.ModelClasses;
+
+public class QueryNumber {
+
+}

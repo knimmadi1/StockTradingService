@@ -1,0 +1,63 @@
+package com.intuit.test.StockTrading;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
+
+import javax.ws.rs.core.Response;
+
+import com.intuit.test.Exceptions.StockNotFoundException;
+import com.intuit.test.StockTrading.Database.AnalyzerDB;
+import com.intuit.test.StockTrading.ModelClasses.QueryResponse;
+import com.intuit.test.StockTrading.ModelClasses.UserQuery;
+import com.intuit.test.StockTrading.ModelClasses.UserQueryStatus;
+
+
+
+
+
+public class QueryService {
+	
+	private final PriorityBlockingQueue<UserQueryStatus> queryQueue = new PriorityBlockingQueue<UserQueryStatus>();
+	private final ArrayBlockingQueue<UserQueryStatus> orderQueue = new ArrayBlockingQueue<UserQueryStatus>(1000000)  ;
+	
+	public QueryService()
+	{
+		InvestmentAnalyzerService InvestmentAnalyzerService = new InvestmentAnalyzerService(queryQueue,orderQueue);
+		new Thread(InvestmentAnalyzerService).start();
+	}
+	
+	
+	public PriorityBlockingQueue<UserQueryStatus> getQueryQueue() {
+		return queryQueue;
+	}
+	public ArrayBlockingQueue<UserQueryStatus> getOrderQueue() {
+		return orderQueue;
+	}
+	
+	public Response processQuery(UserQuery query) 
+	{
+		if(AnalyzerDB.getInstance().stockIdExists(query.getStockId()))
+		{
+			int queryNum=AnalyzerDB.getInstance().getUserQueryStatus().size()+1;
+			UserQueryStatus userQueryStatus = new UserQueryStatus(queryNum,"Accepted Query",query);
+			AnalyzerDB.getInstance().getUserQueryStatus().add(userQueryStatus);
+			queryQueue.put(userQueryStatus);
+			
+			AnalyzerDB.getInstance().getQueries().put(queryNum, query);
+			
+			//update the status to Processing for this query
+			userQueryStatus.setQueryStatus("Processing the Query");
+		
+			QueryResponse queryResponse = new QueryResponse("Your Query is accepted and status can be tracked with Query Number",queryNum);
+			return Response.status(201)
+						.entity(queryResponse)
+						.build();
+			
+		}
+		else
+		{
+			throw new StockNotFoundException("Stock with Stock Id "+query.getStockId()+ " does not exist");
+		}
+	}
+
+}

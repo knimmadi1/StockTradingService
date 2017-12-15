@@ -1,0 +1,25 @@
+package com.intuit.test.StockTrading;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
+
+import com.intuit.test.StockTrading.ModelClasses.userQuery;
+
+public class QueryService {
+	
+	
+	public QueryService(PriorityBlockingQueue<userQuery> queryQueue, ArrayBlockingQueue<userQuery> orderQueue) {
+		super();
+		this.queryQueue = queryQueue;
+		this.orderQueue = orderQueue;
+	}
+	private final PriorityBlockingQueue<userQuery> queryQueue;
+	private final ArrayBlockingQueue<userQuery> orderQueue;
+	public PriorityBlockingQueue<userQuery> getQueryQueue() {
+		return queryQueue;
+	}
+	public ArrayBlockingQueue<userQuery> getOrderQueue() {
+		return orderQueue;
+	}
+
+}

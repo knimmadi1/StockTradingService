@@ -1,0 +1,26 @@
+package com.intuit.test.StockTrading.ModelClasses;
+
+public class Stock {
+	
+	public Stock(String stockId, int stockPrice) {
+		this.stockId = stockId;
+		this.stockPrice = stockPrice;
+	}
+	public String getStockId() {
+		return stockId;
+	}
+	public void setStockId(String stockId) {
+		this.stockId = stockId;
+	}
+	public int getStockPrice() {
+		return stockPrice;
+	}
+	public void setStockPrice(int stockPrice) {
+		this.stockPrice = stockPrice;
+	}
+	private String stockId;
+	private double stockPrice;
+	
+	
+
+}

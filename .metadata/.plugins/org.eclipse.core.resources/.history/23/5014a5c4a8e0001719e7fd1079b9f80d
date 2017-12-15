@@ -1,0 +1,16 @@
+package com.intuit.test.Exceptions;
+
+import java.io.Serializable;
+
+public class StockNotFoundException extends RuntimeException {
+
+
+	private static final long serialVersionUID = -261266917961837871L;
+
+
+	public StockNotFoundException(String message)
+	{
+		super(message);
+	}
+
+}

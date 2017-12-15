@@ -1,0 +1,68 @@
+package com.intuit.test.StockTrading;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
+
+import com.intuit.test.StockTrading.Database.AnalyzerDB;
+import com.intuit.test.StockTrading.ModelClasses.Stock;
+import com.intuit.test.StockTrading.ModelClasses.UserQuery;
+
+public class InvestmentAnalyzerService implements Runnable{
+	
+	private final PriorityBlockingQueue<UserQuery> queryQueue;
+	private final  ArrayBlockingQueue<UserQuery> orderQueue;
+	
+	public InvestmentAnalyzerService(PriorityBlockingQueue<UserQuery> queryQueue, ArrayBlockingQueue orderQueue) {
+		this.queryQueue = queryQueue;
+		this.orderQueue=orderQueue;
+	}
+
+	public void run() {
+		while(true)
+		{
+			try {
+				consume(queryQueue.take());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	void consume(UserQuery query) throws InterruptedException{
+		
+		
+		//check in DB if Rating is already present or not for this stock and price 
+		Stock stock = new Stock(query.getStockId(),query.getPrice());
+		Integer rating=AnalyzerDB.getInstance().getRating(stock);
+		
+		//If rating does not exists,compute rating and then add to DB
+		if(rating == null)
+		{
+			rating=computeRating(query);
+			AnalyzerDB.getInstance().getStockRating().put(stock, rating);
+			
+		}
+		
+		if(rating > 80)
+		{
+			orderQueue.put(query);
+		}
+		else
+		{
+			System.out.println("Price is not close enough  to process order");
+		}
+	
+	}
+	
+	private int computeRating(UserQuery query)
+	{
+		int actualStockPrice = AnalyzerDB.getInstance().getStockMap().get(query.getStockId()).getStockPrice();
+		double val=Math.abs( (query.getPrice()-actualStockPrice/100 );
+		return (int) (100d-val);
+		
+	}*/
+
+}

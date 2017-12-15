@@ -1,0 +1,69 @@
+package com.intuit.test.StockTrading;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
+
+import com.intuit.test.StockTrading.Database.AnalyzerDB;
+import com.intuit.test.StockTrading.ModelClasses.UserQuery;
+
+public class InvestmentAnalyzerService implements Runnable{
+	
+	private final PriorityBlockingQueue<UserQuery> queryQueue;
+	private final  ArrayBlockingQueue<UserQuery> orderQueue;
+	
+	public InvestmentAnalyzerService(PriorityBlockingQueue<UserQuery> queryQueue, ArrayBlockingQueue orderQueue) {
+		this.queryQueue = queryQueue;
+		this.orderQueue=orderQueue;
+	}
+
+	public void run() {
+		while(true)
+		{
+			try {
+				consume(queryQueue.take());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	void consume(UserQuery query) throws InterruptedException{
+		boolean ratingfound=false;
+		int rate =0;
+		
+			//check in DB if Rating is already present or not
+			
+			
+			System.out.println(ratingfound);
+			//if it does not exist compute the rating and then add the rating to existingRatings list
+			if(!ratingfound)
+			{
+			rate=computeRating(query);
+			StockRating rating = new StockRating(query.getStockId(),query.getPrice(),rate);
+			System.out.println("Computed Rating "+rate);
+			analyzerDB.existingRatings.add(rating);
+			}
+			
+			//check if rating is greater than 80,push the order to queue
+			if(rate > 80)
+			{
+				
+				orderQueue.put(query);
+				System.out.println("added order in second queue");
+			}
+		
+		
+		
+	}
+	
+	private int computeRating(UserQuery query)
+	{
+		double val=Math.abs( (query.getPrice()-analyzerDB.stocks.get(query.getStockId()))/100 );
+		return (int) (100d-val);
+		
+	}*/
+
+}

@@ -1,0 +1,8 @@
+package com.intuit.test.StockTrading.ModelClasses;
+
+public class QueryNumber {
+	
+	private int queryNum;
+	private UserQuery query;
+
+}

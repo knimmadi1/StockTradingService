@@ -1,0 +1,35 @@
+package com.intuit.test.StockTrading;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
+
+import com.intuit.test.Exceptions.StockNotFoundException;
+import com.intuit.test.StockTrading.Database.AnalyzerDB;
+import com.intuit.test.StockTrading.ModelClasses.UserQuery;
+
+public class QueryService {
+	
+	private final PriorityBlockingQueue<UserQuery> queryQueue = new PriorityBlockingQueue<UserQuery>();
+	private final ArrayBlockingQueue<UserQuery> orderQueue = new ArrayBlockingQueue<UserQuery>(1000000)  ;
+	
+	
+	public PriorityBlockingQueue<UserQuery> getQueryQueue() {
+		return queryQueue;
+	}
+	public ArrayBlockingQueue<UserQuery> getOrderQueue() {
+		return orderQueue;
+	}
+	
+	public void checkStockIdexists(UserQuery query)
+	{
+		if(AnalyzerDB.getInstance().stockIdExists(query.getStockId()))
+		{
+			
+		}
+		else
+		{
+			throw new StockNotFoundException("Stock with Stock Id "+query.getStockId()+ " does not exist");
+		}
+	}
+
+}

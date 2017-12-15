@@ -1,0 +1,11 @@
+package com.intuit.test.StockTrading.ModelClasses;
+
+public class UserInfo {
+	
+	private String userId;
+	private String stockId;
+	private int numOfStocks;
+	
+	
+
+}

@@ -1,0 +1,80 @@
+package com.intuit.test.StockTrading;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import com.intuit.test.Exceptions.StockNotFoundException;
+import com.intuit.test.StockTrading.Database.AnalyzerDB;
+import com.intuit.test.StockTrading.ModelClasses.Stock;
+import com.intuit.test.StockTrading.ModelClasses.userQuery;
+
+@Path("/query")
+public class SubmitQuery {
+	
+	private final PriorityBlockingQueue<userQuery> queryQueue;
+	public SubmitQuery()
+	{
+		queryQueue = new PriorityBlockingQueue<userQuery>();
+		
+		ArrayBlockingQueue<userQuery> orderQueue = new ArrayBlockingQueue<userQuery>(100000);
+		QueryService queryService = new QueryService(queryQueue);
+		new Thread(queryService).start();
+	//	InvestmentAnalyzerService investmentAnalyzerService = new InvestmentAnalyzerService(queryQueueq,orderQueue);
+		
+	//	OrderProcessService orderProcessService= new OrderProcessService(orderQueue);
+		
+	//	new Thread(investmentAnalyzerService).start();
+	//	new Thread(orderProcessService).start();
+	}
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getStocksList()
+	{
+		
+		return Response.status(200)
+				.entity(AnalyzerDB.getInstance().getStocks().get(0))
+				.build();
+		
+	}
+	
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response postOrder(userQuery query){
+		System.out.println(query.getUserId());
+		System.out.println(query.getStockId());
+		
+		//check if user has given valid stock Id or not
+		if(AnalyzerDB.getInstance().getLookupByStock().containsKey(query.getStockId()))
+		{
+			queryQueue.put(query);
+			return Response.status(200)
+					.entity(query)
+					.build();
+					
+		}
+		else
+			throw new StockNotFoundException("Stock with Stock Id "+query.getStockId()+ " does not exist");
+		
+	
+	}
+	
+	
+	
+
+}

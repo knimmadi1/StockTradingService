@@ -1,0 +1,13 @@
+package com.intuit.test.stockTrading.exceptions;
+
+public class QueryNotFoundException extends Exception implements ExceptionMapper<QueryNotFoundException>{
+
+	
+	public QueryNotFoundException(String message)
+	{
+		super(message);
+	}
+	
+	
+
+}

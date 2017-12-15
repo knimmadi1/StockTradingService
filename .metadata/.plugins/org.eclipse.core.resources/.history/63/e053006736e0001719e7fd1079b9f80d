@@ -1,0 +1,28 @@
+package com.intuit.test.StockTrading.ModelClasses;
+
+public class UserRating {
+
+	public UserRating() {
+		super();
+	}
+	public UserRating(Stock stock, int rating) {
+		super();
+		this.stock = stock;
+		this.rating = rating;
+	}
+	private Stock stock;
+	private int rating;
+	public Stock getStock() {
+		return stock;
+	}
+	public void setStock(Stock stock) {
+		this.stock = stock;
+	}
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+	
+}

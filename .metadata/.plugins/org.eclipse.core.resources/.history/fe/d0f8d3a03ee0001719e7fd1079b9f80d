@@ -1,0 +1,42 @@
+package com.intuit.test.StockTrading;
+
+public class OrderProcessService implements Runnable {
+
+	public OrderProcessService(BlockingQueue<userQuery> orderQueue) {
+		this.orderQueue = orderQueue;
+	}
+
+	private final BlockingQueue<userQuery> orderQueue;
+	OrdersDB ordersDB = new OrdersDB();
+	public void run() {
+		try {
+			
+			process(orderQueue.take());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+
+	void process(userQuery query)
+	{
+		//need to update user info table with new stock count and tran type
+		/*if(ordersDB.userStockInfo.containsKey(query.getUserId()))
+			if(ordersDB.userStockInfo.get(query.getUserId()).containsKey(query.getStockId()));
+				int existingStocks=ordersDB.userStockInfo.get(query.getUserId()).get(query.getStockId());
+				if(query.getTranType().equals("buy"))
+				{
+					
+					int updateStocks=existingStocks-query.getNumOfStocks();
+				}
+				else{
+					
+				}*/
+		
+	//	for(int i=0;i<)
+		
+		//put it list of orders
+		System.out.println("number of stocks: "+query.getNumOfStocks());
+		ordersDB.orders.add(query);
+	}
+}

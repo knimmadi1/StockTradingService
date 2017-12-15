@@ -1,0 +1,13 @@
+package com.intuit.test.exceptions;
+
+
+
+public class StockNotFoundException extends Exception{
+
+
+	public StockNotFoundException(String message)
+	{
+		super(message);
+	}
+
+}
